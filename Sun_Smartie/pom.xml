@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sunsmartie</groupId>
-	<artifactId>sunny</artifactId>
 	<name>Sun_Smartie</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
@@ -161,7 +160,11 @@
 	    	<version>2.12.3</version>
 		</dependency> 
 		
-		    
+		<dependency>
+	   	 	<groupId>org.apache.commons</groupId>
+	   		<artifactId>commons-lang3</artifactId>
+	    	<version>3.12.0</version>
+		</dependency>    
 	</dependencies>
     <build>
         <plugins>
@@ -201,4 +204,5 @@
             </plugin>
         </plugins>
     </build>
+    <artifactId>sunny</artifactId>
 </project>
