@@ -29,6 +29,19 @@ public class UVDAO {
 		return map;
 	}
 	
+	public CityVO selectOneCity(int city_idx) {
+		CityVO city = sqlSession.selectOne("uv.select_city_with_idx", city_idx);
+		return city;
+	}
+	
+	public List<DirectRadiationVO> direct_radiation_list(double latitude, double longitude) {
+		Map<String, Double> map = new HashMap<String, Double>();
+		map.put("latitude", latitude);
+		map.put("longitude", longitude);
+		List<DirectRadiationVO> list = sqlSession.selectList("uv.select_direct_radiation_list", map);
+		return list;
+	}
+	
 	public List<DirectRadiationVO> pullList() {
 		List<DirectRadiationVO> list = sqlSession.selectList("uv.select_list");
 		return list;

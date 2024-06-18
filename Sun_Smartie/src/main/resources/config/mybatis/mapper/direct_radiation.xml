@@ -8,8 +8,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from direct_radiation
 	</select>
 	
+	<select id="select_city_with_idx" resultType="vo.CityVO" parameterType="int">
+		select * from city where idx = #{city_idx}
+	</select>
+	
 	<select id="select_city_list" resultType="vo.CityVO">
 		select * from city
+	</select>
+	
+	<select id="select_direct_radiation_list" resultType="vo.DirectRadiationVO" parameterType="java.util.Map">
+		select * from direct_radiation where latitude = #{latitude} and longitude = #{longitude}
 	</select>
  	
 </mapper>
