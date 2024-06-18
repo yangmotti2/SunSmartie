@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import common.Common;
 
 import java.util.Map;
 import java.util.List;
@@ -27,12 +30,17 @@ public class UVController {
 
     @RequestMapping(value = {"/", "list.do"})
     public String showUV24All() {
-        return common.Common.Direct_Radiation.VIEW_PATH + "get_location_info.jsp";
+        return Common.Direct_Radiation.VIEW_PATH + "get_location_info.jsp";
+    }
+    
+    @RequestMapping("test.do")
+    public String test() {
+    	return Common.Direct_Radiation.VIEW_PATH + "uv_list.jsp";
     }
 
     @PostMapping("/location")
     @ResponseBody
-    public ResponseEntity<String> receiveLocation(Model model, @RequestBody Map<String, Object> locationData) {
+    public ModelAndView receiveLocation(Model model, @RequestBody Map<String, Object> locationData) {
     	//json형태로 넘어온 값들은 Number클래스로 받을 수밖에 없다.
     	Number latitude = (Number) locationData.get("latitude");
         Number longitude = (Number) locationData.get("longitude");
@@ -54,11 +62,16 @@ public class UVController {
             		uvdao.direct_radiation_list(closeCity.getLatitude(), closeCity.getLongitude());
             
             model.addAttribute("radi_list", radi_list);
-
+            ModelAndView mav = new ModelAndView(Common.Direct_Radiation.VIEW_PATH + "uv_list.jsp");
+            mav.addObject("radi_list", radi_list);
+            return mav;
             // 리다이렉트 URL 반환
-            return ResponseEntity.ok(common.Common.Direct_Radiation.VIEW_PATH + "uv_list.jsp");
+            //return ResponseEntity.ok(Common.Direct_Radiation.VIEW_PATH + "uv_list.jsp");
         } else {
-            return ResponseEntity.ok(common.Common.Direct_Radiation.VIEW_PATH + "find_location_fail.jsp");
+        	ModelAndView mav2 = new ModelAndView(Common.Direct_Radiation.VIEW_PATH + "uv_list.jsp");
+        	return mav2;
+           //return ResponseEntity.ok("find_location_fail.jsp");
+        	//return Common.Direct_Radiation.VIEW_PATH + "find_location_fail.jsp";
         }
     }
 }

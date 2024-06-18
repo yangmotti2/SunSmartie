@@ -29,9 +29,11 @@
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState === 4 && xhr.status === 200) {
                             // 응답이 성공적으로 도착하면 페이지 리다이렉트
-                            console.log("들어왔다")
+                            console.log("들어왔다");
                             var responseUrl = xhr.responseText;
-                            window.location.href = responseUrl;
+                            console.log(responseUrl);
+                            //window.location.href = responseUrl;
+                            window.location.href = "test.do";
                         }
                     };
                     
