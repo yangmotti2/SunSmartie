@@ -7,6 +7,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="select_list" resultType="vo.DirectRadiationVO">
 		select * from direct_radiation
 	</select>
+	
+	<select id="select_city_list" resultType="vo.CityVO">
+		select * from city
+	</select>
  	
 </mapper>
 

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import vo.DistrictVO;
+import vo.CityVO;
 
 @Service
 public class UVAPIBinder {
@@ -30,7 +30,6 @@ public class UVAPIBinder {
     public UVAPIBinder(JdbcTemplate jdbcTemplate) {
     	this.jdbcTemplate = jdbcTemplate;
     	
-    	System.out.println("오류?");
     	if(!isdirect_radiationTableExists()) {
     		createdirect_radiationTable();
     		fetchAndStoreUVIndex();
@@ -47,8 +46,8 @@ public class UVAPIBinder {
     }
     
     private void createdirect_radiationTable() {
-    	String isSeqExist = "SELECT count(*)"
-    			+ "FROM user_sequences"
+    	String isSeqExist = "SELECT count(*) "
+    			+ "FROM user_sequences "
     			+ "WHERE sequence_name = 'SEQ_RADI_IDX'";
     	if(jdbcTemplate.queryForObject(isSeqExist, Integer.class) == 0) {
     		jdbcTemplate.execute("create sequence seq_radi_idx");
@@ -61,6 +60,13 @@ public class UVAPIBinder {
         		+ "uv NUMBER, "
         		+ "uv_time varchar2(100))";
         jdbcTemplate.execute(sql);
+        
+        String isIdxExist = "SELECT count(*) "
+        		+ "FROM user_indexes "
+        		+ "WHERE index_name = 'IDX_LATLONG_RADI'";
+        if(jdbcTemplate.queryForObject(isIdxExist, Integer.class) == 0) {
+        	jdbcTemplate.execute("CREATE INDEX idx_latlong_radi ON direct_radiation(latitude, longitude)");
+        }
     }
 
     //@Scheduled(cron = "0 0 0 * * ?") // 매일 자정 실행
@@ -69,19 +75,18 @@ public class UVAPIBinder {
             // 기존 데이터 삭제
             jdbcTemplate.update("DELETE FROM direct_radiation");
             
-            List<DistrictVO> districts = jdbcTemplate.query("select * from district", 
-            		new RowMapper<DistrictVO>() {
+            List<CityVO> cities = jdbcTemplate.query("select * from city", 
+            		new RowMapper<CityVO>() {
 						@Override
-						public DistrictVO mapRow(ResultSet rs, int rowNum) throws SQLException {
-							return new DistrictVO(rs.getInt("idx"),
+						public CityVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+							return new CityVO(rs.getInt("idx"),
 												  rs.getString("city_name"),
-												  rs.getString("district_name"),
 												  rs.getDouble("latitude"),
 												  rs.getDouble("longitude"));
 						}
 					}); 
             
-            for (DistrictVO coordinate : districts) {
+            for (CityVO coordinate : cities) {
                 double lat = coordinate.getLatitude();
                 double lon = coordinate.getLongitude();
 
