@@ -6,7 +6,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -31,6 +34,7 @@ public class UVAPIBinder {
     	this.jdbcTemplate = jdbcTemplate;
     	
     	if(!isdirect_radiationTableExists()) {
+    		System.out.println("테이블이 존재하지 않음. 만드는중...");
     		createdirect_radiationTable();
     		fetchAndStoreUVIndex();
     	}
@@ -58,7 +62,7 @@ public class UVAPIBinder {
                 + "latitude NUMBER, "
         		+ "longitude NUMBER, "
         		+ "uv NUMBER, "
-        		+ "uv_time varchar2(100))";
+        		+ "uv_time Date)";
         jdbcTemplate.execute(sql);
         
         String isIdxExist = "SELECT count(*) "
@@ -113,12 +117,22 @@ public class UVAPIBinder {
                 for (JsonNode node : resultNode) {
                     double uvIndex = node.path("uv").asDouble();
                     String uvTime = node.path("uv_time").asText();
-                    System.out.println(uvIndex + "/" + uvTime);
+                    
+                 // UTC 시간을 KST로 변환
+                    SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    Date utcDate = utcFormat.parse(uvTime);
 
-                    jdbcTemplate.update("INSERT INTO direct_radiation (idx, latitude, longitude, uv, uv_time) VALUES (seq_radi_idx.nextVal, ?, ?, ?, ?)",
-                            lat, lon, uvIndex, uvTime);
+                    SimpleDateFormat kstFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    kstFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+                    String kstTime = kstFormat.format(utcDate);
+                    System.out.println(kstTime);
+
+                    jdbcTemplate.update("INSERT INTO direct_radiation (idx, latitude, longitude, uv, uv_time) VALUES (seq_radi_idx.nextVal, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS'))",
+                            lat, lon, uvIndex, kstTime);
                 }
             }
+            System.out.println("테이블 생성 및 데이터 삽입 완료");
 
         } catch (Exception e) {
 			e.printStackTrace();

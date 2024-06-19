@@ -81,8 +81,19 @@
 			        }100% {
 			          	 border: 6px solid #88b3a8;;
 			        }
-		    	}	
+		    	}
+		    #map {
+			    height: 500px;
+			    width: 400px;
+			    margin: 0 auto;
+			    max-width: 400px;
+			    border: 2px solid #000;
+			}
+
 		</style>
+		
+		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/mapdata.js"></script>		
+		<script  type="text/javascript" src="${pageContext.request.contextPath}/resources/js/countrymap.js"></script>
 		
 		<script>
 			// 피부 타입 바꾸기
@@ -222,6 +233,14 @@
 			<div class="skin_box" style="background-color: #8c5738" onclick="change_color('#8c5738');"></div>
 			<div class="skin_box" style="background-color: #382012" onclick="change_color('#382012');"></div>
 		</div>
-		
-	</body>
+
+	<div id="test">야야</div>
+	<div id="map"></div>
+	<script type="text/javascript">
+	    document.addEventListener("DOMContentLoaded", function() {
+	        simplemaps_countrymap.load();
+	    });
+	</script>
+
+</body>
 </html>

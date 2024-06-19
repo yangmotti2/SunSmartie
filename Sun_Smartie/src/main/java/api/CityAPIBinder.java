@@ -19,6 +19,7 @@ public class CityAPIBinder {
 		this.jdbcTemplate = jdbcTemplate;
 		
         if (!iscityTableExists()) {
+        	System.out.println("테이블이 존재하지 않음. 만드는중...");
         	createcityTable();
             setCity_list();
             insertDataIntoUVIndexTable();
