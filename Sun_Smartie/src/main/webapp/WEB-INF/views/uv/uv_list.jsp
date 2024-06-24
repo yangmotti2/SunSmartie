@@ -42,7 +42,9 @@
 		 					  border-radius: 30px;
 		 					  background-color: #2d2d36;
 		 					  position: relative;
+		 				
 		 					  overflow: hidden; 
+						
 							  animation: linechange 0.5s linear infinite;
 						}	
 
@@ -57,6 +59,7 @@
 					border-radius: 50px;
 					margin-top:-40px;
 					left: -100px;
+					border: 1px solid blue;
 					}
 
 			#slide_back{width: 200px;
@@ -64,9 +67,9 @@
 					z-index: 2;
 					position: absolute;
 					margin-top:-5px;
-					border-radius: 50px;
+					border-radius: 20px;
 					top: 0;
-					left: -100px;
+					left: 0px;
 					}
 
 			#skin_type{width: 30px;
@@ -96,6 +99,42 @@
 		<script  type="text/javascript" src="${pageContext.request.contextPath}/resources/js/countrymap.js"></script>
 		
 		<script>
+			// 타이머 변수	
+			let timer_count = 0;
+			let past_time = 0;
+			let now_time = 0;
+			let intervalId;
+			
+			// 게이지 바 카운트 함수
+			function uv_guage_count() {
+				now_time++;
+				let oldstyle = document.getElementById("oldstyle");
+				if(oldstyle){
+					oldstyle.remove();
+					console.log("지워짐");
+					console.log(now_time + " / " + past_time);
+					console.log(now_time/timer_count);
+				}
+				
+				let slide_back = document.getElementById("slide_back");
+			    // 동적으로 <style> 요소 생성
+		        let styleSheet = document.createElement("style");
+		        styleSheet.type = "text/css"; // JavaScript를 사용하여 동적으로 생성된 <style> 요소의 타입을 설정하는 코드
+											// CSS 파일이 아닌 HTML 문서 내에서 스타일을 정의할 때는 대부분 text/css를 사용
+		        styleSheet.id = "oldstyle"
+				// 동적으로 키프레임 애니메이션 정의
+ 				let keyframes_rotate = "@keyframes rotate { 0% { transform: rotate(0deg); left: "+ (past_time/timer_count * 100) +"%; } 100% { transform: rotate(360deg); left:"+ (now_time/timer_count*100) +"%; } } #slide { animation: rotate 1s linear infinite; }";
+		        let keyframes_back = "@keyframes back { 0% { width:"+(past_time/timer_count * 100 + 5)+"%; } 100% { width:" +(now_time/timer_count * 100 + 5) +"% }} #slide_back { animation: back 0.8s linear forwards; }";
+		        // <style> 요소에 키프레임 애니메이션 추가
+		        styleSheet.innerHTML = keyframes_rotate + "\n" + keyframes_back;
+		        
+		        document.head.appendChild(styleSheet);
+		        
+		        past_time = now_time;
+				
+			}
+		
+		
 			// 피부 타입 바꾸기
 			function change_color(color) {
 				let skin_type = document.getElementById("skin_type");
@@ -159,27 +198,21 @@
 				    [0, 80, 60, 40, 30] //피부타입6
 				];
 				
+				// 현 상황에 맞는 적정 시간 계산
+				timer_count = uv_min[shin_level][uv_level];
 				
-				let slide_back = document.getElementById("slide_back");
-			    // 동적으로 <style> 요소 생성
-		        let styleSheet = document.createElement("style");
-		        styleSheet.type = "text/css"; // JavaScript를 사용하여 동적으로 생성된 <style> 요소의 타입을 설정하는 코드
-											// CSS 파일이 아닌 HTML 문서 내에서 스타일을 정의할 때는 대부분 text/css를 사용
-		        // 동적으로 키프레임 애니메이션 정의
-/* 	 	        let keyframes_rotate = " @keyframes rotate { 0% { transform: rotate(0deg); left: -100px; }   100% { transform: rotate(360deg); left: 90%; } } #slide{ animation: rotate 8s linear;  } ";
-		        let keyframes_back = " @keyframes back { 0% { width: 0px;}   100% { width: 120%; } } #slide_back{ animation: back 8s linear;  } ";  */
-
-		        // 동적으로 키프레임 애니메이션 정의
-		        let keyframes_rotate = " @keyframes rotate { 0% { transform: rotate(0deg); left: -100px; }   100% { transform: rotate(360deg); left: 90%; } } #slide{ animation: rotate "+uv_min[shin_level][uv_level]+"s linear;  } ";
-		        let keyframes_back = " @keyframes back { 0% { width: 0px;}   100% { width: 120%; } } #slide_back{ animation: back "+uv_min[shin_level][uv_level]+"s linear;  } ";  
-
-		        // <style> 요소에 키프레임 애니메이션 추가
-		        styleSheet.innerHTML = keyframes_rotate + "\n" + keyframes_back;
-		        
-		        document.head.appendChild(styleSheet);
-
+		        // 매 초마다 incrementCounter 함수를 호출
+		       intervalId = setInterval(uv_guage_count, 1000); // 1000ms = 1초
 				
 			}
+			
+			function timerstop() {
+				clearInterval(intervalId); // 타이머 멈추기
+				
+				let slide = document.getElementById("slide");
+				// slide.style.animation = "rotate 1s linear forwards"; // animation 속성을 빈 문자열로 설정하여 애니메이션 제거
+			}
+			
 		</script>
 	</head>
 	<body>
@@ -216,7 +249,7 @@
 			<div id="slide"></div>
 			<div id="slide_back"></div>
 		</div>
-
+		<input type="button" value="멈추기" onclick="timerstop();">
 		
 		
 		<br>

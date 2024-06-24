@@ -151,6 +151,283 @@ var simplemaps_countrymap_mapdata={
       lat: "38.2043",
       lng: "128.5942",
       name: "Sokcho"
+    },
+    "5": {
+      lat: "37.3391",
+      lng: "127.9221",
+      name: "Wonju"
+    },
+    "6": {
+      lat: "37.8785",
+      lng: "127.7323",
+      name: "Chuncheon"
+    },
+    "7": {
+      lat: "37.1612",
+      lng: "128.988",
+      name: "Taebaek"
+    },
+    "8": {
+      lat: "37.6559",
+      lng: "126.7771",
+      name: "Goyang"
+    },
+    "9": {
+      lat: "37.4264",
+      lng: "126.9898",
+      name: "Gwacheon"
+    },
+    "10": {
+      lat: "37.4757",
+      lng: "126.8667",
+      name: "Gwangmyeong"
+    },
+    "11": {
+      lat: "37.4145",
+      lng: "127.2578",
+      name: "Gwangju"
+    },
+    "12": {
+      lat: "37.5916",
+      lng: "127.1319",
+      name: "Guri"
+    },
+    "13": {
+      lat: "37.3587",
+      lng: "126.9375",
+      name: "Gunpo"
+    },
+    "14": {
+      lat: "37.6125",
+      lng: "126.7178",
+      name: "Gimpo"
+    },
+    "15": {
+      lat: "37.6332",
+      lng: "127.2186",
+      name: "Namyangju"
+    },
+    "16": {
+      lat: "37.9009",
+      lng: "127.0627",
+      name: "Dongducheon"
+    },
+    "17": {
+      lat: "37.5036",
+      lng: "126.766",
+      name: "Bucheon"
+    },
+    "18": {
+      lat: "37.4475",
+      lng: "127.1477",
+      name: "Seongnam"
+    },
+    "19": {
+      lat: "37.301",
+      lng: "127.0122",
+      name: "Suwon"
+    },
+    "20": {
+      lat: "37.3773",
+      lng: "126.8051",
+      name: "Siheung"
+    },
+    "21": {
+      lat: "37.2985",
+      lng: "126.8468",
+      name: "Ansan"
+    },
+    "22": {
+      lat: "37.0052",
+      lng: "127.2818",
+      name: "Anseong"
+    },
+    "23": {
+      lat: "37.3897",
+      lng: "126.9534",
+      name: "Anyang"
+    },
+    "24": {
+      lat: "37.7824",
+      lng: "127.0478",
+      name: "Yangju"
+    },
+    "25": {
+      lat: "37.2954",
+      lng: "127.6396",
+      name: "Yeoju"
+    },
+    "26": {
+      lat: "37.1469",
+      lng: "127.0796",
+      name: "Osan"
+    },
+    "27": {
+      lat: "37.2315",
+      lng: "127.2038",
+      name: "Yongin"
+    },
+    "28": {
+      lat: "37.3419",
+      lng: "126.9704",
+      name: "Uiwang"
+    },
+    "29": {
+      lat: "37.7353",
+      lng: "127.0358",
+      name: "Uijeongbu"
+    },
+    "30": {
+      lat: "37.2754",
+      lng: "127.4432",
+      name: "Icheon"
+    },
+    "31": {
+      lat: "37.7571",
+      lng: "126.782",
+      name: "Paju"
+    },
+    "32": {
+      lat: "36.9894",
+      lng: "127.1147",
+      name: "Pyeongtaek"
+    },
+    "33": {
+      lat: "37.8922",
+      lng: "127.2024",
+      name: "Pocheon"
+    },
+    "34": {
+      lat: "37.5365",
+      lng: "127.217",
+      name: "Hanam"
+    },
+    "35": {
+      lat: "37.1968",
+      lng: "126.8335",
+      name: "Hwaseong"
+    },
+    "36": {
+      lat: "37.4562",
+      lng: "126.7059",
+      name: "Incheon"
+    },
+    "37": {
+      lat: "34.8774",
+      lng: "128.6234",
+      name: "Geoje"
+    },
+    "38": {
+      lat: "35.8221",
+      lng: "128.7435",
+      name: "Gyeongsan"
+    },
+    "39": {
+      lat: "35.8532",
+      lng: "129.227",
+      name: "Gyeongju"
+    },
+    "40": {
+      lat: "36.1165",
+      lng: "128.3468",
+      name: "Gumi"
+    },
+    "41": {
+      lat: "36.1369",
+      lng: "128.1158",
+      name: "Gimcheon"
+    },
+    "42": {
+      lat: "35.2255",
+      lng: "128.8917",
+      name: "Gimhae"
+    },
+    "43": {
+      lat: "35.1969",
+      lng: "128.5679",
+      name: "Masan"
+    },
+    "44": {
+      lat: "36.5836",
+      lng: "128.189",
+      name: "Mungyeong"
+    },
+    
+    
+    "45": {
+      lat: "35.5008",
+      lng: "128.7489",
+      name: "Miryang"
+    },
+    "46": {
+      lat: "35.0003",
+      lng: "128.0668",
+      name: "Sacheon"
+    },
+    "47": {
+      lat: "36.408",
+      lng: "128.1613",
+      name: "Sangju"
+    },
+    "48": {
+      lat: "36.5655",
+      lng: "128.7316",
+      name: "Andong"
+    },
+    "49": {
+      lat: "35.3319",
+      lng: "129.0394",
+      name: "Yangsan"
+    },
+    "50": {
+      lat: "36.8029",
+      lng: "128.6263",
+      name: "Yeongju"
+    },
+    "51": {
+      lat: "36.8907",
+      lng: "126.6303",
+      name: "Dangjin"
+    },
+    "52": {
+      lat: "36.3306",
+      lng: "126.6149",
+      name: "Boryeong"
+    },
+    "53": {
+      lat: "36.7821",
+      lng: "126.4522",
+      name: "Seosan"
+    },
+    "54": {
+      lat: "36.7871",
+      lng: "127.0046",
+      name: "Asan"
+    },
+    "55": {
+      lat: "37.1298",
+      lng: "128.1932",
+      name: "Jecheon"
+    },
+    "56": {
+      lat: "36.8041",
+      lng: "127.1525",
+      name: "Cheonan"
+    },
+    "57": {
+      lat: "36.584",
+      lng: "127.5117",
+      name: "Cheongju"
+    },
+    "58": {
+      lat: "36.9882",
+      lng: "127.9281",
+      name: "Chungju"
+    },
+    "59": {
+      lat: "36.3506",
+      lng: "127.3849",
+      name: "Daejeon"
     }
   },
   labels: {
