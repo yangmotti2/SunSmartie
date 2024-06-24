@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="javax.servlet.http.HttpSession" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
+		<script src="/project/resources/js/httpRequest.js"></script>
 		
 		<style>
 			#skin_container{padding:2px;
@@ -142,6 +145,17 @@
 				
 				let skinType = document.getElementById("skinType");
 				skinType.value = color;
+				
+				let url = "skinSession.do";
+				let param = "color=" + color;
+				sendRequest(url, param, resultFn, "post");
+			}
+			
+			function resultFn(){
+				if(xhr.readyState == 4 && xhr.status == 200){
+					alert("skinSession등록 성공");
+					return;
+				}
 			}
 		
 			// uv 타입 바꾸기
@@ -214,8 +228,23 @@
 			}
 			
 		</script>
+		
+		<script>
+		  	let skin = document.getElementById("skin_type").value;
+	  	</script>
 	</head>
 	<body>
+	  <%Date now = new Date();
+	  	String ip = request.getRemoteAddr();
+	  	session.setAttribute("now", now);
+	  	session.setAttribute("ip", ip);%>
+	  	현재시각 : <%= now %><br>
+	  	ip주소 : <%= ip %><br>
+	  	latitude : ${lat }
+	  	longitude : ${lon }
+	  	skin : ${skincolor }
+	  
+	  
 		<table border="1" align="center">
 			<c:forEach var="vo" items="${radi_list}">
 				<tr>

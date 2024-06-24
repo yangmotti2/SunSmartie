@@ -1,15 +1,17 @@
 package controller;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import common.Common;
-
-import java.util.Map;
-
-import java.util.List;
-
 import dao.UVDAO;
 import util.LocationCalc;
 import vo.CityVO;
@@ -18,6 +20,9 @@ import vo.DirectRadiationVO;
 @Controller
 public class UVController {
 
+	@Autowired
+	HttpSession session;
+	
 	UVDAO uvdao;
 
 	public UVController(UVDAO uvdao) {
@@ -44,9 +49,21 @@ public class UVController {
 		System.out.print("리스트사이즈:" + radi_list.size());
 		
 		model.addAttribute("radi_list", radi_list);
-
+		
+		session.setAttribute("lat", latitude);
+		session.setAttribute("lon", longitude);
+				
 		return Common.Direct_Radiation.VIEW_PATH + "uv_list.jsp";
 	}
+	
+	@RequestMapping("skinSession.do")
+	@ResponseBody
+	public String skinSession(String color) {
+		System.out.println("hello");
+		session.setAttribute("skincolor", color);
+		System.out.println(session.getAttribute("skincolor"));
+		return "ok"; 
+	} 
 }
 
 
