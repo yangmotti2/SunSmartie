@@ -8,7 +8,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		<script src="/project/resources/js/httpRequest.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/httpRequest.js"></script>
 		
 		<style>
 			#skin_container{padding:2px;
@@ -146,17 +146,17 @@
 				let skinType = document.getElementById("skinType");
 				skinType.value = color;
 				
-				let url = "skinSession.do";
+/* 				let url = "skinSession.do";
 				let param = "color=" + color;
-				sendRequest(url, param, resultFn, "post");
+				sendRequest(url, param, resultFn, "post"); */
 			}
 			
-			function resultFn(){
+/* 			function resultFn(){
 				if(xhr.readyState == 4 && xhr.status == 200){
 					alert("skinSession등록 성공");
 					return;
 				}
-			}
+			} */
 		
 			// uv 타입 바꾸기
 			function uv_change(uv_color) {
@@ -229,12 +229,12 @@
 			
 		</script>
 		
-		<script>
+<!-- 		<script>
 		  	let skin = document.getElementById("skin_type").value;
-	  	</script>
+	  	</script> -->
 	</head>
 	<body>
-	  <%Date now = new Date();
+<%-- 	  <%Date now = new Date();
 	  	String ip = request.getRemoteAddr();
 	  	session.setAttribute("now", now);
 	  	session.setAttribute("ip", ip);%>
@@ -243,7 +243,9 @@
 	  	latitude : ${lat }
 	  	longitude : ${lon }
 	  	skin : ${skincolor }
-	  
+	   --%>
+	   
+	   <h1>${ city_name }</h1> 
 	  
 		<table border="1" align="center">
 			<c:forEach var="vo" items="${radi_list}">
@@ -296,13 +298,41 @@
 			<div class="skin_box" style="background-color: #382012" onclick="change_color('#382012');"></div>
 		</div>
 
-	<div id="test">야야</div>
 	<div id="map"></div>
-	<script type="text/javascript">
-	    document.addEventListener("DOMContentLoaded", function() {
-	        simplemaps_countrymap.load();
-	    });
-	</script>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            simplemaps_countrymap.load();
+
+            // 지도 클릭 이벤트 설정
+            simplemaps_countrymap.hooks.click_location = function(id) {
+                var location = simplemaps_countrymap_mapdata.locations[id];
+                if (location) {
+                    var lat = location.lat;
+                    var lng = location.lng;
+                    
+                    // 폼을 동적으로 생성하여 데이터 전송
+                    var form = document.createElement("form");
+                    form.setAttribute("method", "post");
+                    form.setAttribute("action", "location.do");
+
+                    var latitudeField = document.createElement("input");
+                    latitudeField.setAttribute("type", "hidden");
+                    latitudeField.setAttribute("name", "latitude");
+                    latitudeField.setAttribute("value", lat);
+                    form.appendChild(latitudeField);
+
+                    var longitudeField = document.createElement("input");
+                    longitudeField.setAttribute("type", "hidden");
+                    longitudeField.setAttribute("name", "longitude");
+                    longitudeField.setAttribute("value", lng);
+                    form.appendChild(longitudeField);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            };
+        });
+    </script>
 
 </body>
 </html>

@@ -33,12 +33,12 @@ public class UVController {
 		return Common.Direct_Radiation.VIEW_PATH + "get_location_info.jsp"; 
 	}
 
+	
 	@RequestMapping("location.do")
-	public String receiveLocation(Model model, double latitude, double longitude) {
-
+	public String receiveLocation(Model model, Double latitude, Double longitude) {
 		Map<Integer, double[]> city_map = uvdao.city_list();
 		LocationCalc locationCalc = new LocationCalc();
-		int city_idx = locationCalc.findClosestDistrict(city_map, latitude, longitude);
+		int city_idx = locationCalc.findClosestDistrict(city_map, latitude.doubleValue(), longitude.doubleValue());
 
 		CityVO closeCity = uvdao.selectOneCity(city_idx);
 
@@ -49,6 +49,7 @@ public class UVController {
 		System.out.print("리스트사이즈:" + radi_list.size());
 		
 		model.addAttribute("radi_list", radi_list);
+		model.addAttribute("city_name", closeCity.getcity_name());
 		
 		session.setAttribute("lat", latitude);
 		session.setAttribute("lon", longitude);

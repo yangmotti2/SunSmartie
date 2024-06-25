@@ -130,7 +130,7 @@ var simplemaps_countrymap_mapdata={
     "0": {
       lat: 37.559,
       lng: 127,
-      name: "seoul"
+      name: "Seoul"
     },
     "1": {
       lat: "37.7491",
