@@ -146,17 +146,17 @@
 				let skinType = document.getElementById("skinType");
 				skinType.value = color;
 				
-/* 				let url = "skinSession.do";
+ 				let url = "skinSession.do";
 				let param = "color=" + color;
-				sendRequest(url, param, resultFn, "post"); */
+				sendRequest(url, param, resultFn, "post"); 
 			}
 			
-/* 			function resultFn(){
+ 			function resultFn(){
 				if(xhr.readyState == 4 && xhr.status == 200){
 					alert("skinSession등록 성공");
 					return;
 				}
-			} */
+			} 
 		
 			// uv 타입 바꾸기
 			function uv_change(uv_color) {
@@ -229,12 +229,12 @@
 			
 		</script>
 		
-<!-- 		<script>
+		<script>
 		  	let skin = document.getElementById("skin_type").value;
-	  	</script> -->
+	  	</script>
 	</head>
 	<body>
-<%-- 	  <%Date now = new Date();
+<%Date now = new Date();
 	  	String ip = request.getRemoteAddr();
 	  	session.setAttribute("now", now);
 	  	session.setAttribute("ip", ip);%>
@@ -243,7 +243,7 @@
 	  	latitude : ${lat }
 	  	longitude : ${lon }
 	  	skin : ${skincolor }
-	   --%>
+
 	   
 	   <h1>${ city_name }</h1> 
 	  
@@ -299,8 +299,9 @@
 		</div>
 
 	<div id="map"></div>
+
     <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
+        /* document.addEventListener("DOMContentLoaded", function() { */
             simplemaps_countrymap.load();
 
             // 지도 클릭 이벤트 설정
@@ -331,7 +332,7 @@
                     form.submit();
                 }
             };
-        });
+/*         }); */
     </script>
 
 </body>

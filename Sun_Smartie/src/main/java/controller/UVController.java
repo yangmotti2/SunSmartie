@@ -1,5 +1,6 @@
 package controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -35,21 +36,20 @@ public class UVController {
 
 	
 	@RequestMapping("location.do")
-	public String receiveLocation(Model model, Double latitude, Double longitude) {
+	public String receiveLocation(Model model, double latitude, double longitude) {
+		//--해당 도시의 
 		Map<Integer, double[]> city_map = uvdao.city_list();
 		LocationCalc locationCalc = new LocationCalc();
-		int city_idx = locationCalc.findClosestDistrict(city_map, latitude.doubleValue(), longitude.doubleValue());
+		int city_idx = locationCalc.findClosestDistrict(city_map, latitude, longitude);
 
 		CityVO closeCity = uvdao.selectOneCity(city_idx);
 
 		List<DirectRadiationVO> radi_list = uvdao.direct_radiation_list(closeCity.getLatitude(),
 				closeCity.getLongitude());
-
-		//15개씩 가져오는지 확인
-		System.out.print("리스트사이즈:" + radi_list.size());
 		
 		model.addAttribute("radi_list", radi_list);
 		model.addAttribute("city_name", closeCity.getcity_name());
+		//--
 		
 		session.setAttribute("lat", latitude);
 		session.setAttribute("lon", longitude);
