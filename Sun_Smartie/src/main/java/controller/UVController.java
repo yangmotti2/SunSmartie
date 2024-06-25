@@ -1,15 +1,17 @@
 package controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import common.Common;
-
-import java.util.Map;
-
-import java.util.List;
-
 import dao.UVDAO;
 import util.LocationCalc;
 import vo.CityVO;
@@ -42,6 +44,20 @@ public class UVController {
 
 		//15개씩 가져오는지 확인
 		System.out.print("리스트사이즈:" + radi_list.size());
+		
+		Map<String, List<DirectRadiationVO>> radi_map = new HashMap<String, List<DirectRadiationVO>>();
+		radi_map.put("radi_map", radi_list);
+		
+	    // JSON 문자열로 변환
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    String radiMapJson = "";
+	    try {
+	        radiMapJson = objectMapper.writeValueAsString(radi_map);
+	    } catch (JsonProcessingException e) {
+	        e.printStackTrace();
+	    }
+		System.out.println("radi_map : " + radiMapJson); //  {"radi_map":[{"idx":1,"latitude":37.5519,"longitude":126.9918,"uv":0.0,"uv_
+		model.addAttribute("radiMapJson", radiMapJson);
 		
 		model.addAttribute("radi_list", radi_list);
 

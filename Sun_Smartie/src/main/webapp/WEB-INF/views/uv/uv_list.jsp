@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
+
+
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -109,7 +114,7 @@
 			let intervalId;
 			
 			// 게이지 바 카운트 함수
-			function uv_guage_count() {
+			function uv_guage_count(uv_color_list, uv_time_list) {
 				let skinType = document.getElementById("skinType");
 				let shin_arr = ["#f7dac6", "#f2c9ac", "#d6aa8b", "#bd855e", "#8c5738", "#382012"];
 
@@ -124,12 +129,15 @@
 				
 				let now = new Date();
 				console.log(now.getHours());
+				console.log(uv_time_list[0]);
 				
-			}
-			
-			function guage_countFn() {
 				
-			}
+/* 				for(let i = 0; i < shin_arr.length; i++){
+					if(shin_arr[i] == skinType.value){
+						shin_level = i;
+						break;
+					}
+				} */
 
 				
 				let slide = document.getElementById("slide");
@@ -199,11 +207,28 @@
 				slide_back.style.backgroundColor = uv_color;
 			}
 			
+			let uv_color_list = [];
+			let uv_time_list = [];
+			
 			// 게이지 상승 함수
-			function gauge() {
+			function gauge(radiMapJson) {
+				console.log("하이");
+	            let radi_map = JSON.parse(radiMapJson); // json 객체로 변환
+	            let radi_list = radi_map.radi_list;
+				console.log("radi : "+radi_map);
+				console.log("radi : "+radi_map.radi_list);
+				
+				
+				radi_list.forEach(vo => {
+					uv_color_list.push(vo.uv_color);
+					uv_time_list.push(vo.uv_time);
+				});
+				
 				
 		        // 매 초마다 incrementCounter 함수를 호출
-		       intervalId = setInterval(uv_guage_count, 1000); // 1000ms = 1초
+		       intervalId = setInterval(function() {
+		           uv_guage_count(uv_color_list, uv_time_list);
+		       		}, 1000); // 1000ms = 1초
 				
 			}
 			
@@ -245,7 +270,7 @@
 		</div>
 		<br>
 		
-		<div id="slide_container" onclick="gauge();" align="center">
+		<div id="slide_container" onclick="gauge('${radiMapJson}');" align="center"> <!-- onclick 부분이 json 문자열로 안보내져요  -->
 			<h2 align="center" style="color: #d3d3f2">Click this Point !</h2>
 			<div id="slide"></div>
 			<div id="slide_back"></div>
