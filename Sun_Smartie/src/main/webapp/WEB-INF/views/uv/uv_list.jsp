@@ -88,18 +88,25 @@
 			          	 border: 6px solid #88b3a8;;
 			        }
 		    	}
-		    #map {
+
+/* 지도 수정 */	
+			.city {font-weight:bold;
+				   margin:20px 0 20px 360px;
+				 
+				   font-size:30px;}    	
+		    .map-box {
 			    height: 500px;
-			    width: 400px;
+			    width: 500px;
 			    margin: 0 auto;
-			    max-width: 400px;
 			    border: 2px solid #000;
 			}
-
+			
+			.table-map-container {display:flex; justify-content:flex-start;}
+			.radi-table, .map-box {margin:10px;}
+			.radi-table table {border-collapse:collapse; height:500px;}
+			.radi-table table td, th {padding:4px; text-align:center;}
+/***********/			
 		</style>
-		
-		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/mapdata.js"></script>		
-		<script  type="text/javascript" src="${pageContext.request.contextPath}/resources/js/countrymap.js"></script>
 		
 		<script>
 			// 타이머 변수	
@@ -234,7 +241,7 @@
 	  	</script>
 	</head>
 	<body>
-<%Date now = new Date();
+<!-- <%Date now = new Date();
 	  	String ip = request.getRemoteAddr();
 	  	session.setAttribute("now", now);
 	  	session.setAttribute("ip", ip);%>
@@ -242,22 +249,31 @@
 	  	ip주소 : <%= ip %><br>
 	  	latitude : ${lat }
 	  	longitude : ${lon }
-	  	skin : ${skincolor }
-
-	   
-	   <h1>${ city_name }</h1> 
-	  
-		<table border="1" align="center">
-			<c:forEach var="vo" items="${radi_list}">
-				<tr>
-					<td>${vo.uv_time}</td>
-					<td>${vo.uv}</td>
-					<td>${vo.latitude}</td>
-					<td>${vo.longitude}</td>
-				</tr>
-			</c:forEach>
-		</table>
-		
+	  	skin : ${skincolor } -->
+	  	
+<!-- map 수정 -->
+		<div class="city">${city_name }</div>
+	  	<div class="table-map-container">
+		  	<div class="radi-table">
+			<table border="1" align="center">
+				<th>DATE</th>
+				<th>UV INDEX</th>
+				<th>LAT</th>
+				<th>LON</th>
+				<c:forEach var="vo" items="${radi_list}">
+					<tr>
+						<td>${vo.uv_time}</td>
+						<td>${vo.uv}</td>
+						<td>${vo.latitude}</td>
+						<td>${vo.longitude}</td>
+					</tr>
+				</c:forEach>
+			</table>
+			</div>
+			
+			<div class="map-box"><jsp:include page="/WEB-INF/views/include/map.jsp"/></div>
+		</div>
+<!---------------->		
 		<hr>
 		<br>
 
@@ -297,43 +313,5 @@
 			<div class="skin_box" style="background-color: #8c5738" onclick="change_color('#8c5738');"></div>
 			<div class="skin_box" style="background-color: #382012" onclick="change_color('#382012');"></div>
 		</div>
-
-	<div id="map"></div>
-
-    <script type="text/javascript">
-        /* document.addEventListener("DOMContentLoaded", function() { */
-            simplemaps_countrymap.load();
-
-            // 지도 클릭 이벤트 설정
-            simplemaps_countrymap.hooks.click_location = function(id) {
-                var location = simplemaps_countrymap_mapdata.locations[id];
-                if (location) {
-                    var lat = location.lat;
-                    var lng = location.lng;
-                    
-                    // 폼을 동적으로 생성하여 데이터 전송
-                    var form = document.createElement("form");
-                    form.setAttribute("method", "post");
-                    form.setAttribute("action", "location.do");
-
-                    var latitudeField = document.createElement("input");
-                    latitudeField.setAttribute("type", "hidden");
-                    latitudeField.setAttribute("name", "latitude");
-                    latitudeField.setAttribute("value", lat);
-                    form.appendChild(latitudeField);
-
-                    var longitudeField = document.createElement("input");
-                    longitudeField.setAttribute("type", "hidden");
-                    longitudeField.setAttribute("name", "longitude");
-                    longitudeField.setAttribute("value", lng);
-                    form.appendChild(longitudeField);
-
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            };
-/*         }); */
-    </script>
-
 </body>
 </html>
