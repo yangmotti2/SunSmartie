@@ -14,29 +14,41 @@
    <div id="map" style="width: 500px; height: 500px;"></div>
 
    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0764536504d016798367cf2283191f94"></script>
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=738ebf73d0d1b63be6916097dcb5b3ad"></script>
     <script type="text/javascript">
         // Chrome 보안 강화 정책에 따른 서드파티 쿠키 허용
         document.cookie = 'cookie2=value2; SameSite=None; Secure';
 
         // -- 변수 선언 --
         let container = document.getElementById('map'); // 지도를 담을 영역의 DOM 레퍼런스
+        let lat = ${latitude != null ? latitude : 33.450701}; // 세션에서 가져온 값이 있으면 사용, 없으면 기본값
+        let lon = ${longitude != null ? longitude : 126.570667}; // 세션에서 가져온 값이 있으면 사용, 없으면 기본값
+        let level = ${level != null ? level : 12}; // 세션에서 가져온 값이 있으면 사용, 없으면 기본값
+        
         let options = { // 지도를 생성할 때 필요한 기본 옵션
             //center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표 (제주도).
 //*세션에 담긴 위도경도 값으로 지도 중심좌표 잡기            
             center: new kakao.maps.LatLng(${lat}, ${lon}), // 지도의 중심좌표 (제주도).
-            level: 12 // 지도의 레벨(확대, 축소 정도)
+            level: level // 지도의 레벨(확대, 축소 정도)
         };
 
         let map = new kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
         let customOverlay = new kakao.maps.CustomOverlay({});
         let detailMode = false; // level에 따라 다른 json 파일 사용 (sido.json인지 sig.json인지 구분하기 위해 설정한 불린변수)
-        let level = ''; //현재 줌인 레벨을 확인하기 위한 전역변수 설정
+        /* let level = ''; */ //현재 줌인 레벨을 확인하기 위한 전역변수 설정
         let polygons = [];
         let areas = []; // areas 변수를 전역으로 선언하여 참조 가능하게 함 (각 지역정보를 맵에 넣을 수 있는 상태로 정리해서 넣을 배열)
         // -- 변수 선언 끝 --
-
-        init("resources/json/sido.json"); // 초기 시작
+		
+        if (level <= 10) { // level에 따라 다른 json 파일을 사용한다.
+                detailMode = true;
+                removePolygon();
+                init("resources/json/sig.json"); //다시 선을 그려라
+        } else if (level > 10) { // level에 따라 다른 json 파일을 사용한다.
+                detailMode = false;
+                removePolygon();
+                init("resources/json/sido.json");
+        }
 
         kakao.maps.event.addListener(map, 'zoom_changed', function() {
             level = map.getLevel();
@@ -136,7 +148,7 @@
                 strokeColor: '#004c80',
                 strokeOpacity: 0.8,
                 fillColor: '#fff',
-                fillOpacity: 0.7
+                fillOpacity: 0.3
             });
             polygons.push(polygon);
             
@@ -164,7 +176,6 @@
             	var lng = latlng.getLng();
             	
                 if (!detailMode) {//detail모드가 아닐때 true가 되므로 실행
-                	getInfo(lat, lng);
                     map.setLevel(10); // level에 따라 이벤트 변경
                     
                     // 지도의 중심을 부드럽게 클릭한 위치로 이동시킵니다.
@@ -172,7 +183,7 @@
                     console.log(latlng);
                     
                 } else {
-                	getInfo(lat, lng);
+                	getInfo(lat, lng, level);
                     // 클릭 이벤트 함수
                     // callFunctionWithRegionCode(area.location);
                     map.setLevel(level); // level에 따라 이벤트 변경
@@ -183,10 +194,10 @@
             });
         }
 //*getCity함수         
-        function getInfo(lat, lng){
+        function getInfo(lat, lng, level){
         	console.log("getInfo함수. lat :" + lat + "lng :" + lng );
      
-            location.href = "location.do?latitude=" + lat + "&longitude=" + lng;
+            location.href = "location.do?latitude=" + lat + "&longitude=" + lng + "&level=" + level;
         }
         
         /* function getInfo(lat, lng){

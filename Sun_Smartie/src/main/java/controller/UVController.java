@@ -36,8 +36,13 @@ public class UVController {
 
 	
 	@RequestMapping("location.do")
-	public String receiveLocation(Model model, double latitude, double longitude) {
+	public String receiveLocation(Model model, double latitude, double longitude, Integer level) {
 		System.out.println("지도에서 보낸 에이잭스. lat:" + latitude + "lon:" + longitude);
+		//*세션에 위도경도 저장		 
+		session.setAttribute("lat", latitude);
+		session.setAttribute("lon", longitude);
+		session.setAttribute("level", level);
+		
 		//--해당 도시의  
 		Map<Integer, double[]> city_map = uvdao.city_list();
 		LocationCalc locationCalc = new LocationCalc();
@@ -51,9 +56,6 @@ public class UVController {
 		model.addAttribute("radi_list", radi_list);
 		model.addAttribute("city_name", closeCity.getcity_name());
 		//--
-//*세션에 위도경도 저장		 
-		session.setAttribute("lat", latitude);
-		session.setAttribute("lon", longitude);
 				
 		return Common.Direct_Radiation.VIEW_PATH + "uv_list.jsp";
 	}

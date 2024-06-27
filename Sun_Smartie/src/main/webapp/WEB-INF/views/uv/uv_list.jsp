@@ -256,10 +256,12 @@
 	  	<div class="table-map-container">
 		  	<div class="radi-table">
 			<table border="1" align="center">
+			<tr>
 				<th>DATE</th>
 				<th>UV INDEX</th>
 				<th>LAT</th>
 				<th>LON</th>
+			</tr>
 				<c:forEach var="vo" items="${radi_list}">
 					<tr>
 						<td>${vo.uv_time}</td>
