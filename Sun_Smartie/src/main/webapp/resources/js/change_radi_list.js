@@ -7,8 +7,11 @@ function change_radi_list(lat, lng) {
             return response.json();
         })
         .then(updated_radi_list => {
-            update_radi_table(updated_radi_list);
-            update_radi_bar(updated_radi_list);
+         	const { cityname, radi_list } = updated_radi_list;
+         	let city = document.getElementById("cityName")
+         	city.innerHTML = cityname;
+            update_radi_table(radi_list);
+            update_radi_bar(radi_list);
         })
         .catch(error => console.error('There has been a problem with your fetch operation:', error));
 }

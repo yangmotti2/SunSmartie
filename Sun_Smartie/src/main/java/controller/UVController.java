@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,17 +77,22 @@ public class UVController {
 	
     @RequestMapping("radi_table.do")
     @ResponseBody
-    public List<DirectRadiationVO> getNewRadiList(@RequestParam double lat, @RequestParam double lng) {
+    public Map<String, Object> getNewRadiList(@RequestParam double lat, @RequestParam double lng) {
     	Map<Integer, double[]> city_map = uvdao.city_list();
 		LocationCalc locationCalc = new LocationCalc();
 		int city_idx = locationCalc.findClosestDistrict(city_map, lat, lng);
 
 		CityVO closeCity = uvdao.selectOneCity(city_idx);
+		String cityname = closeCity.getcity_name();
 
 		List<DirectRadiationVO> radi_list = uvdao.direct_radiation_list(closeCity.getLatitude(),
 				closeCity.getLongitude());
 		
-		return radi_list;
+		Map<String, Object> response = new HashMap<String, Object>();
+        response.put("cityname", cityname);
+        response.put("radi_list", radi_list);
+		
+		return response;
     }
 	
 }

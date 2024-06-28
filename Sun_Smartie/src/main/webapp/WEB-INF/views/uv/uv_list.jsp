@@ -18,7 +18,7 @@
 	
 	<body>
 		
-		<div class="city">${ city_name }</div>
+		<div class="city" id="cityName">${ city_name }</div>
 	  	<div class="table-map-container">
 	  	
 	  	
