@@ -1,0 +1,129 @@
+@charset "UTF-8";
+
+#skin_container {
+	padding: 2px;
+	width: 165px;
+	height: 135px;
+	border: 1px solid;
+	overflow: hidden;
+}
+
+.skin_box {
+	margin: 2px;
+	width: 50px;
+	height: 50px;
+	float: left;
+	display: block;
+	cursor: pointer;
+	border-radius: 20px;
+}
+
+#day_container {
+	width: 800px;
+	height: 60px;
+	overflow: hidden;
+}
+
+.uv_box {
+	width: 40px;
+	height: 50px;
+	border: 1px solid;
+	float: left;
+}
+
+#slide_container {
+	width: 800px;
+	height: 60px;
+	border: 6px groove #5a5a73;
+	cursor: pointer;
+	border-radius: 30px;
+	background-color: #2d2d36;
+	position: relative;
+	overflow: hidden;
+	animation: linechange 0.5s linear infinite;
+}
+
+#slide_container h2 {
+	position: absolute;
+	z-index: 1;
+	left: 35%
+}
+
+#slide {
+	width: 200px;
+	height: 200px;
+	z-index: 2;
+	position: absolute;
+	border-radius: 50px;
+	margin-top: -40px;
+	left: -100px;
+	border: 1px solid blue;
+}
+
+#slide_back {
+	width: 200px;
+	height: 200px;
+	z-index: 2;
+	position: absolute;
+	margin-top: -5px;
+	border-radius: 20px;
+	top: 0;
+	left: 0px;
+}
+
+#skin_type {
+	width: 30px;
+	height: 30px;
+	border-radius: 20px;
+	border: 1px solid;
+}
+
+@
+keyframes linechange { 0% {
+	border: 6px solid #5a5a73;
+}
+
+100
+%
+{
+border
+:
+6px
+solid
+#88b3a8;;
+}
+}
+
+/* 지도 수정 */
+.city {
+	font-weight: bold;
+	margin: 20px 0 20px 360px;
+	font-size: 30px;
+}
+
+.map-box {
+	height: 500px;
+	width: 500px;
+	margin: 0 auto;
+	border: 2px solid #000;
+}
+
+.table-map-container {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.radi-table, .map-box {
+	margin: 10px;
+}
+
+.radi-table table {
+	border-collapse: collapse;
+	height: 500px;
+}
+
+.radi-table table td, th {
+	padding: 4px;
+	text-align: center;
+}
+/***********/
