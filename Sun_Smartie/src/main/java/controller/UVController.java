@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import common.Common;
 import dao.UVDAO;
@@ -67,6 +71,24 @@ public class UVController {
 		System.out.println(session.getAttribute("skincolor"));
 		return "ok"; 
 	} 
+	
+	//-----------새로 추가한 메서드 ↓-------------//
+	
+    @RequestMapping("radi_table.do")
+    @ResponseBody
+    public List<DirectRadiationVO> getNewRadiList(@RequestParam double lat, @RequestParam double lng) {
+    	Map<Integer, double[]> city_map = uvdao.city_list();
+		LocationCalc locationCalc = new LocationCalc();
+		int city_idx = locationCalc.findClosestDistrict(city_map, lat, lng);
+
+		CityVO closeCity = uvdao.selectOneCity(city_idx);
+
+		List<DirectRadiationVO> radi_list = uvdao.direct_radiation_list(closeCity.getLatitude(),
+				closeCity.getLongitude());
+		
+		return radi_list;
+    }
+	
 }
 
 

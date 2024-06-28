@@ -40,7 +40,7 @@
         let areas = []; // areas 변수를 전역으로 선언하여 참조 가능하게 함 (각 지역정보를 맵에 넣을 수 있는 상태로 정리해서 넣을 배열)
         // -- 변수 선언 끝 --
 		
-        if (level <= 10) { // level에 따라 다른 json 파일을 사용한다.
+        /* if (level <= 10) { // level에 따라 다른 json 파일을 사용한다.
                 detailMode = true;
                 removePolygon();
                 init("resources/json/sig.json"); //다시 선을 그려라
@@ -48,7 +48,8 @@
                 detailMode = false;
                 removePolygon();
                 init("resources/json/sido.json");
-        }
+        } */
+        init("resources/json/sido.json");
 
         kakao.maps.event.addListener(map, 'zoom_changed', function() {
             level = map.getLevel();
@@ -183,11 +184,11 @@
                     console.log(latlng);
                     
                 } else {
-                	getInfo(lat, lng, level);
+                	// getInfo(lat, lng, level);
                     // 클릭 이벤트 함수
-                    // callFunctionWithRegionCode(area.location);
                     map.setLevel(level); // level에 따라 이벤트 변경
                     map.panTo(center); // 클릭한 폴리곤의 중심을 지도 중심으로 설정
+                	change_radi_list(lat, lng);
                     
                 }
                 //getCity(lat, lng);

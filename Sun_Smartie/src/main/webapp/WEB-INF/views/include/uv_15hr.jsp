@@ -23,15 +23,17 @@
 	</script>
 	
 	<body>
-		<c:forEach var="vo" items="${radi_list}">
-			<!-- calc() 함수는 CSS 스타일 시트에서 사용되어 스타일 속성의 값을 동적으로 계산하여 설정할 수 있는 기능을 제공 -->
-			<div class="uv_box" onclick="uv_change('${vo.uv_color}');" 
-				 style="width: calc(100% / ${radi_list.size()} - 2px); background-color: ${vo.uv_color}">
-				 
-				${vo.uv}
-				
-			</div>
-		</c:forEach>
+		<div id="uv_box-container">
+			<c:forEach var="vo" items="${radi_list}">
+				<!-- calc() 함수는 CSS 스타일 시트에서 사용되어 스타일 속성의 값을 동적으로 계산하여 설정할 수 있는 기능을 제공 -->
+				<div class="uv_box" onclick="uv_change('${vo.uv_color}');" 
+					 style="width: calc(100% / ${radi_list.size()} - 2px); background-color: ${vo.uv_color}">
+					 
+					${vo.uv}
+					
+				</div>
+			</c:forEach>
+		</div>
 	</body>
 </html>
 

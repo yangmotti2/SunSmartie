@@ -1,6 +1,6 @@
 package vo;
 
-public class DirectRadiationVO {
+public class DirectRadiationVO{
 	
 	private int idx;
 	private double latitude, longitude, uv;
