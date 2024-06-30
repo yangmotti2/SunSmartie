@@ -14,7 +14,7 @@
    <div id="map" style="width: 500px; height: 500px;"></div>
 
    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=738ebf73d0d1b63be6916097dcb5b3ad"></script>
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0764536504d016798367cf2283191f94"></script>
     <script type="text/javascript">
         // Chrome 보안 강화 정책에 따른 서드파티 쿠키 허용
         document.cookie = 'cookie2=value2; SameSite=None; Secure';
@@ -36,8 +36,11 @@
         let customOverlay = new kakao.maps.CustomOverlay({});
         let detailMode = false; // level에 따라 다른 json 파일 사용 (sido.json인지 sig.json인지 구분하기 위해 설정한 불린변수)
         /* let level = ''; */ //현재 줌인 레벨을 확인하기 위한 전역변수 설정
-        let polygons = [];
+        let polygons = [];        
         let areas = []; // areas 변수를 전역으로 선언하여 참조 가능하게 함 (각 지역정보를 맵에 넣을 수 있는 상태로 정리해서 넣을 배열)
+//*현재 마우스 오버된 폴리곤을 저장할 전역변수      
+        let currentPolygon = null; 
+        
         // -- 변수 선언 끝 --
 		
         /* if (level <= 10) { // level에 따라 다른 json 파일을 사용한다.
@@ -156,7 +159,16 @@
             var center = getPolygonCenter(area.path); // 폴리곤의 중심 계산
 
             kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
-                polygon.setOptions({ fillColor: '#09f' });
+//마우스오버 색변환            	
+            	var latlng = mouseEvent.latLng;
+            	var lat = latlng.getLat();
+            	var lng = latlng.getLng();
+            	
+            	currentPolygon = polygon; // 마우스 오버된 폴리곤을 저장
+            	change_map_color(lat, lng);
+            	
+            	//polygon.setOptions({ fillColor: map_color });
+                //polygon.setOptions({ fillColor: '#09f' });
                 /* customOverlay.setContent('<div class="area">' + area.name + '</div>'); */
                 customOverlay.setPosition(mouseEvent.latLng);
                 customOverlay.setMap(map);
@@ -189,7 +201,6 @@
                     map.setLevel(level); // level에 따라 이벤트 변경
                     map.panTo(center); // 클릭한 폴리곤의 중심을 지도 중심으로 설정
                 	change_radi_list(lat, lng);
-                    
                 }
                 //getCity(lat, lng);
             });

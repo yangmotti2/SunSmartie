@@ -12,6 +12,7 @@
 		<link rel="stylesheet" href="resources/css/uv_list_style.css">
 		<script src="resources/js/httpRequest.js"></script>
 		<script src="resources/js/change_radi_list.js"></script>
+		<script src="resources/js/change_map_color.js"></script>
 	</head>
 	
 	
