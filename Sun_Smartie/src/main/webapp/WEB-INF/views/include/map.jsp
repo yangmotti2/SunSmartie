@@ -6,6 +6,54 @@
    <head>
    <meta charset="UTF-8">
    <title>Insert title here</title>
+   
+   <style>
+         .overlay_info {
+            position: relative;
+            border: 1px solid #ccc;
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+            width: 80px;
+            height: 50px;
+            text-align: center;
+            line-height:3;
+        }
+
+        .overlay_info .nv_notice {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .overlay_info::after {
+            content: '';
+            position: absolute;
+            bottom: -19px; /* /* Adjust this to position the tail */
+            left: 50%;
+            margin-left: -10px;
+            width: 0;
+            height: 0;
+            border-width: 10px;
+            border-style: solid;
+            border-color: white transparent transparent transparent;
+            z-index: 1; /* Ensures it is above the shadow */
+        }
+
+        .overlay_info::before {
+            content: '';
+            position: absolute;
+            bottom: -24px; /* /* Adjust this to position the shadow */
+            left: 50%;
+            margin-left: -11px;
+            width: 0;
+            height: 0;
+            border-width: 12px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.3) transparent transparent transparent;
+            z-index: 0; /* Ensures it is below the main tail */
+        }
+    </style>
 
 </head>
    
@@ -14,7 +62,7 @@
    <div id="map" style="width: 500px; height: 500px;"></div>
 
    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0764536504d016798367cf2283191f94"></script>
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0764536504d016798367cf2283191f94&libraries=clusterer"></script>
     <script type="text/javascript">
         // Chrome 보안 강화 정책에 따른 서드파티 쿠키 허용
         document.cookie = 'cookie2=value2; SameSite=None; Secure';
@@ -28,7 +76,7 @@
         let options = { // 지도를 생성할 때 필요한 기본 옵션
             //center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표 (제주도).
 //*세션에 담긴 위도경도 값으로 지도 중심좌표 잡기            
-            center: new kakao.maps.LatLng(${lat}, ${lon}), // 지도의 중심좌표 (제주도).
+            center: new kakao.maps.LatLng(${lat}, ${lon}),
             level: level // 지도의 레벨(확대, 축소 정도)
         };
 
@@ -40,6 +88,14 @@
         let areas = []; // areas 변수를 전역으로 선언하여 참조 가능하게 함 (각 지역정보를 맵에 넣을 수 있는 상태로 정리해서 넣을 배열)
 //*현재 마우스 오버된 폴리곤을 저장할 전역변수      
         let currentPolygon = null; 
+        
+//*마커 변수 선언
+        let marker = null;
+ 
+//*알림표시 정보를 담을 커스텀오버레이 전역 변수로 선언 (이전 정보 지우기 위해)
+        let newCustomOverlay = null; 
+
+
         
         // -- 변수 선언 끝 --
 		
@@ -157,6 +213,8 @@
             polygons.push(polygon);
             
             var center = getPolygonCenter(area.path); // 폴리곤의 중심 계산
+            
+
 
             kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
 //마우스오버 색변환            	
@@ -183,7 +241,7 @@
                 customOverlay.setMap(null);
             });
 
-            kakao.maps.event.addListener(polygon, 'click', function(mouseEvent) {
+            kakao.maps.event.addListener(polygon, 'click', async function(mouseEvent) {
             	var latlng = mouseEvent.latLng;
             	var lat = latlng.getLat();
             	var lng = latlng.getLng();
@@ -196,32 +254,47 @@
                     console.log(latlng);
                     
                 } else {
-                	// getInfo(lat, lng, level);
-                    // 클릭 이벤트 함수
                     map.setLevel(level); // level에 따라 이벤트 변경
                     map.panTo(center); // 클릭한 폴리곤의 중심을 지도 중심으로 설정
                 	change_radi_list(lat, lng);
                 }
-                //getCity(lat, lng);
+     
+	            //단일 마커 추가갱신 기능
+	           /*  if (marker) { // 기존 마커가 있는 경우 위치를 갱신
+	                marker.setPosition(latlng);
+	            } else { // 기존 마커가 없는 경우 새로 추가
+	                marker = new kakao.maps.Marker({
+	                    position: latlng,
+	                    map: map
+	                });
+	            } */
+	            
+	            change_uv_notice(lat, lng, function(uv_notice) {//function - 콜백함수
+	                //커스텀 오버레이 내용 설정
+	                var content = '<div class="overlay_info">';
+	                content += '        <span class="uv_notice">' + uv_notice + '</span>';
+	                content += '    </div>';
+	                content += '</div>';
+
+	                //기존 커스텀 오버레이가 있는 경우 제거 (이전 마우스클릭 포인트에 알림창 쌓이지 않게)
+	                if (newCustomOverlay) {
+	                    newCustomOverlay.setMap(null);
+	                }
+
+	                //새로운 커스텀 오버레이 생성 및 갱신
+	                newCustomOverlay = new kakao.maps.CustomOverlay({
+	                    position: latlng,
+	                    content: content,
+	                    xAnchor: 0.5,
+	                    yAnchor: 1.1
+	                });
+
+	                //새로운 커스텀 오버레이를 지도에 표시
+	                newCustomOverlay.setMap(map);
+	            });
+
             });
         }
-//*getCity함수         
-        function getInfo(lat, lng, level){
-        	console.log("getInfo함수. lat :" + lat + "lng :" + lng );
-     
-            location.href = "location.do?latitude=" + lat + "&longitude=" + lng + "&level=" + level;
-        }
-        
-        /* function getInfo(lat, lng){
-        	url = "location.do";
-        	param = "latitude=" + lat + "&longitude=" + lng;
-        	sendRequest(url, param, resultFn, "post");
-        }
-        function resultFn(){
-        	if(xhr.readyState == 4 && xhr.status == 200){
-        		
-        	}
-        } */
     </script>
    
 </body>

@@ -7,6 +7,7 @@ public class DirectRadiationVO{
 	private String uv_time;
 	
 	private String uv_color;
+	private String uv_notice;
 	
 	public String getUv_color() {
 		if(uv >= 0 && uv < 3) {
@@ -19,6 +20,23 @@ public class DirectRadiationVO{
 			return "#B71C1C";
 		}else if(uv >= 11) {
 			return "#6A1B9A";
+		}else {
+			return "수치 값 이상";
+		}
+		
+	}
+	
+	public String getUv_notice() {
+		if(uv >= 0 && uv < 3) {
+			return "Cool";
+		}else if(uv >= 3 && uv < 6) {
+			return "Mild";
+		}else if(uv >= 6 && uv < 8) {
+			return "Warm";
+		}else if(uv >= 8 && uv < 11) {
+			return "Hot";
+		}else if(uv >= 11) {
+			return "Scorching";
 		}else {
 			return "수치 값 이상";
 		}
