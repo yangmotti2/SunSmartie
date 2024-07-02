@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +64,37 @@ public class UVController {
 				
 		return Common.Direct_Radiation.VIEW_PATH + "uv_list.jsp";
 	}
+	
+	
+	
+	@RequestMapping("list_select.do")
+ 	@ResponseBody
+ 	public List<Map<String, Object>> list_select() { 
+		// 최종적으로 보낼 리스트 
+		List<Map<String, Object>> city_radi_list = new ArrayList<Map<String,Object>>();
+		
+	 
+	 	for(int i = 1; i <= 60; i++) { 
+	 		// 리스트에 담을 데이터 묶음
+	 		Map<String, Object> city_map = new HashMap<String, Object>();
+	 		CityVO vo = uvdao.selectOneCity(i); 
+	 		
+	 		System.out.println(vo.getcity_name() + " / " + i);
+	 		city_map.put("city_name", vo.getcity_name()); 
+	 		city_map.put("latitude", vo.getLatitude()); 
+	 		city_map.put("longitude", vo.getLongitude()); 
+	 		
+	 		List<DirectRadiationVO> radi_vo_list = uvdao.direct_radiation_list(vo.getLatitude(), vo.getLongitude());
+	 		city_map.put("radi_list", radi_vo_list);
+	 		city_radi_list.add(city_map);
+	 	}
+	 	
+	 	return city_radi_list;
+	}
+	 
+	
+
+	
 	
 	@RequestMapping("skinSession.do")
 	@ResponseBody

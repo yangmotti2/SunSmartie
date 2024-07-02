@@ -62,7 +62,7 @@
    <div id="map" style="width: 500px; height: 500px;"></div>
 
    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0764536504d016798367cf2283191f94&libraries=clusterer"></script>
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e3c8baf94badf0c3173256c9dc29a9db"></script>
     <script type="text/javascript">
         // Chrome 보안 강화 정책에 따른 서드파티 쿠키 허용
         document.cookie = 'cookie2=value2; SameSite=None; Secure';
